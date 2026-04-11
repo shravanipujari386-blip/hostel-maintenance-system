@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="dashboard">
+
+    <h1>👨 Admin Dashboard</h1>
+
+    <a href="/logout">🚪 Logout</a>
+
+    <br><br>
+
+    <!-- 📊 CHART -->
+    <h2>Complaint Overview</h2>
+
+    <canvas id="myChart"
+        data-pending="{{ pending }}"
+        data-progress="{{ progress }}"
+        data-completed="{{ completed }}">
+    </canvas>
+
+    <br><br>
+
+    <!-- 📋 TABLE -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>PRN</th>
+            <th>Room</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Worker</th>
+            <th>Date</th>
+            <th>Update</th>
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+
+            <td>
+                {% if row[5] == "Pending" %}
+                    <span class="pending">🟡 Pending</span>
+                {% elif row[5] == "In Progress" %}
+                    <span class="progress">🔵 In Progress</span>
+                {% else %}
+                    <span class="done">🟢 Completed</span>
+                {% endif %}
+            </td>
+
+            <td>{{ row[6] }}</td>
+            <td>{{ row[7] }}</td>
+
+            <td>
+                <form action="/update/{{ row[0] }}" method="POST">
+                    <input type="text" name="worker" placeholder="Worker" required>
+
+                    <select name="status">
+                        <option>Pending</option>
+                        <option>In Progress</option>
+                        <option>Completed</option>
+                    </select>
+
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+<!-- 📊 CHART SCRIPT -->
+<script>
+const canvas = document.getElementById("myChart");
+
+const pending = parseInt(canvas.getAttribute("data-pending")) || 0;
+const progress = parseInt(canvas.getAttribute("data-progress")) || 0;
+const completed = parseInt(canvas.getAttribute("data-completed")) || 0;
+
+const ctx = canvas.getContext("2d");
+
+new Chart(ctx, {
+    type: "pie",
+    data: {
+        labels: ["Pending", "In Progress", "Completed"],
+        datasets: [{
+            data: [pending, progress, completed],
+            backgroundColor: ["orange", "blue", "green"]
+        }]
+    }
+});
+</script>
+
+</body>
+</html>

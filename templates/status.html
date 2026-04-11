@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Status</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+    <h1>📊 My Complaints</h1>
+
+    <a href="/student">⬅ Back</a>
+    <br><br>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Room</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Worker</th>
+            <th>Date</th>
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+
+            <td>
+                {% if row[5] == "Pending" %}
+                    <span class="pending">🟡 Pending</span>
+                {% elif row[5] == "In Progress" %}
+                    <span class="progress">🔵 In Progress</span>
+                {% else %}
+                    <span class="done">🟢 Completed</span>
+                {% endif %}
+            </td>
+
+            <td>{{ row[6] }}</td>
+            <td>{{ row[7] }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+</body>
+</html>
