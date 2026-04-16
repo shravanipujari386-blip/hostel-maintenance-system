@@ -292,7 +292,29 @@ def admin_view_complaints():
 
     return render_template("admin_view_complaints.html", complaints=complaints)
 
+@app.route("/assign_worker/<int:id>", methods=["POST"])
+def assign_worker(id):
+    if "admin" not in session:
+        return redirect("/")
 
+    worker = request.form["worker"]
+    phone = request.form["phone"]
+    date = request.form["date"]
+    status = request.form["status"]
+
+    conn = sqlite3.connect("database.db")
+    cur = conn.cursor()
+
+    cur.execute("""
+        UPDATE complaints
+        SET worker=?, phone=?, date=?, status=?
+        WHERE id=?
+    """, (worker, phone, date, status, id))
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/admin_view_complaints")
 @app.route("/admin_feedback")
 def admin_feedback():
     if "admin" not in session:
