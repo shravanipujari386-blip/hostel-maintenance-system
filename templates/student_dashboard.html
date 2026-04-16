@@ -1,31 +1,111 @@
-
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html>
-    {% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <div style="color: lightgreen; font-weight: bold;">
-      {{ messages[0] }}
-    </div>
-  {% endif %}
-{% endwith %}
 <head>
-    <title>Complaint</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Student Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffe5b4, #ffd1dc);
+        }
+
+        /* 🔥 BORDER BOX */
+        .outer-box {
+            border: 3px solid #ffb07c;
+            border-radius: 20px;
+            margin: 20px;
+            padding: 30px 20px 20px 20px;
+            min-height: 95vh;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* 🔥 TITLE OUTSIDE BORDER */
+        .page-title {
+            position: relative;
+            top: -25px;
+            background: white;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .card-box {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+        }
+
+        .card-box:hover {
+            transform: scale(1.05);
+        }
+
+        /* ✅ YOUR ORIGINAL COLORS (UNCHANGED) */
+        .c1 { background: linear-gradient(45deg, #ff6a00, #ffcc70); }
+        .c2 { background: linear-gradient(45deg, #007bff, #00c6ff); }
+        .c3 { background: linear-gradient(45deg, #28a745, #00e676); }
+        .c4 { background: linear-gradient(45deg, #9c27b0, #e040fb); }
+        .c5 { background: linear-gradient(45deg, #f44336, #ff7961); }
+
+    </style>
 </head>
-<div class="dashboard">
-    <h1>👩 Student Dashboard</h1>
 
-    <div class="card">
-        <img src="/static/images/repair.png">
-        <a href="/complaint">File Complaint</a>
+<body>
+
+<div class="outer-box text-center">
+
+    <!-- 🔥 TITLE OUTSIDE BORDER -->
+    <h2 class="page-title">Student Dashboard</h2>
+
+    <div class="container d-flex flex-column justify-content-center align-items-center min-vh-100 text-center">
+
+        <div class="row g-4 justify-content-center w-100">
+
+            <div class="col-12 col-md-4">
+                <a href="/file_complaint" class="card-box c1">
+                    File Complaint
+                </a>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <a href="/view_status" class="card-box c2">
+                    View Status
+                </a>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <a href="/view_timetable" class="card-box c3">
+                    Mess Timetable
+                </a>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <a href="/feedback" class="card-box c4">
+                    Feedback
+                </a>
+            </div>
+
+            <div class="col-12 col-md-4">
+                <a href="/emergency" class="card-box c5">
+                    Emergency
+                </a>
+            </div>
+
+        </div>
+
+        <a href="/logout" class="btn btn-danger mt-4">Logout</a>
+
     </div>
 
-    <div class="card">
-        <img src="/static/images/student.png">
-        <a href="/my_complaints">View Status</a>
-    </div>
-
-    <div class="card">
-        <a href="/logout">🚪 Logout</a>
-    </div>
 </div>
+
+</body>
+</html>

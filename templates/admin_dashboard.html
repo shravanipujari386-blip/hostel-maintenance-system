@@ -3,108 +3,109 @@
 <head>
     <title>Admin Dashboard</title>
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ffe5b4, #ffd1dc);
+        }
+
+        /* BORDER BOX */
+        .outer-box {
+            border: 3px solid #ffb07c;
+            border-radius: 20px;
+            margin: 20px;
+            padding: 30px 20px 20px 20px;
+            min-height: 95vh;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        /* TITLE */
+        .page-title {
+            position: relative;
+            top: -25px;
+            background: white;
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .card-box {
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+        }
+
+        .card-box:hover {
+            transform: scale(1.05);
+        }
+
+        /* COLORS */
+        .c1 { background: linear-gradient(45deg, #007bff, #00c6ff); }
+        .c2 { background: linear-gradient(45deg, #28a745, #00e676); }
+        .c3 { background: linear-gradient(45deg, #ff6a00, #ffcc70); }
+        .c4 { background: linear-gradient(45deg, #9c27b0, #e040fb); }
+        .c5 { background: linear-gradient(45deg, #f44336, #ff7961); }
+
+    </style>
 </head>
+
 <body>
 
-<div class="dashboard">
+<div class="outer-box text-center">
 
-    <h1>👨 Admin Dashboard</h1>
+    <h2 class="page-title">Admin Dashboard</h2>
 
-    <a href="/logout">🚪 Logout</a>
+    <div class="container d-flex flex-column justify-content-center align-items-center min-vh-100 text-center">
 
-    <br><br>
+        <div class="row g-4 justify-content-center w-100">
 
-    <!-- 📊 CHART -->
-    <h2>Complaint Overview</h2>
+            <div class="col-12 col-md-4">
+                <a href="/view_complaints" class="card-box c1">
+                    View Complaints
+                </a>
+            </div>
 
-    <canvas id="myChart"
-        data-pending="{{ pending }}"
-        data-progress="{{ progress }}"
-        data-completed="{{ completed }}">
-    </canvas>
+            <div class="col-12 col-md-4">
+                <a href="/pending_complaints" class="card-box c2">
+                    Pending Complaints
+                </a>
+            </div>
 
-    <br><br>
+            <div class="col-12 col-md-4">
+                <a href="/resolved_complaints" class="card-box c3">
+                    Resolved Complaints
+                </a>
+            </div>
 
-    <!-- 📋 TABLE -->
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>PRN</th>
-            <th>Room</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Worker</th>
-            <th>Date</th>
-            <th>Update</th>
-        </tr>
+            <div class="col-12 col-md-4">
+                <a href="/view_feedback" class="card-box c4">
+                    View Feedback
+                </a>
+            </div>
 
-        {% for row in data %}
-        <tr>
-            <td>{{ row[0] }}</td>
-            <td>{{ row[1] }}</td>
-            <td>{{ row[2] }}</td>
-            <td>{{ row[3] }}</td>
-            <td>{{ row[4] }}</td>
+            <!-- ✅ UPDATED TAB -->
+            <div class="col-12 col-md-4">
+                <a href="/admin_timetable" class="card-box c5">
+                    Update Mess Timetable
+                </a>
+            </div>
 
-            <td>
-                {% if row[5] == "Pending" %}
-                    <span class="pending">🟡 Pending</span>
-                {% elif row[5] == "In Progress" %}
-                    <span class="progress">🔵 In Progress</span>
-                {% else %}
-                    <span class="done">🟢 Completed</span>
-                {% endif %}
-            </td>
+        </div>
 
-            <td>{{ row[6] }}</td>
-            <td>{{ row[7] }}</td>
+        <a href="/logout" class="btn btn-danger mt-4">Logout</a>
 
-            <td>
-                <form action="/update/{{ row[0] }}" method="POST">
-                    <input type="text" name="worker" placeholder="Worker" required>
-
-                    <select name="status">
-                        <option>Pending</option>
-                        <option>In Progress</option>
-                        <option>Completed</option>
-                    </select>
-
-                    <button type="submit">Update</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+    </div>
 
 </div>
-
-<!-- 📊 CHART SCRIPT -->
-<script>
-const canvas = document.getElementById("myChart");
-
-const pending = parseInt(canvas.getAttribute("data-pending")) || 0;
-const progress = parseInt(canvas.getAttribute("data-progress")) || 0;
-const completed = parseInt(canvas.getAttribute("data-completed")) || 0;
-
-const ctx = canvas.getContext("2d");
-
-new Chart(ctx, {
-    type: "pie",
-    data: {
-        labels: ["Pending", "In Progress", "Completed"],
-        datasets: [{
-            data: [pending, progress, completed],
-            backgroundColor: ["orange", "blue", "green"]
-        }]
-    }
-});
-</script>
 
 </body>
 </html>
