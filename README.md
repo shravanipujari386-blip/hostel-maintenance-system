@@ -16,3 +16,5 @@ A web-based system for students to report hostel issues and track their status, 
 
 ### Admin Dashboard
 ![Admin Dashboard](Screenshot%202026-04-16%20230749.png)
+### Student Dashboard
+![Student Dashboard](Screenshot%202026-04-16%20230806.png)
