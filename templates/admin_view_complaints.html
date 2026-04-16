@@ -24,7 +24,7 @@
                 <th>Worker</th>
                 <th>Phone</th>
                 <th>Date</th>
-                <th>Assign</th>
+                <th>Assign Worker</th>
             </tr>
         </thead>
 
@@ -42,20 +42,30 @@
                 <td>{{ c[8] }}</td>
 
                 <td>
-                    <form action="/assign_worker/{{ c[0] }}" method="POST">
-                        <input type="text" name="worker" placeholder="Worker" required class="form-control mb-1">
-                        <input type="text" name="phone" placeholder="Phone" required class="form-control mb-1">
-                        <input type="date" name="date" required class="form-control mb-1">
+                    <form action="{{ url_for('assign_worker', id=c[0]) }}" method="POST">
+
+                        <input type="text" name="worker" placeholder="Worker"
+                               required class="form-control mb-1">
+
+                        <input type="text" name="phone" placeholder="Phone"
+                               required class="form-control mb-1">
+
+                        <input type="date" name="date"
+                               required class="form-control mb-1">
 
                         <select name="status" class="form-control mb-1">
-                            <option>Pending</option>
-                            <option>In Progress</option>
-                            <option>Completed</option>
+                            <option value="Pending">Pending</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
                         </select>
 
-                        <button class="btn btn-success btn-sm">Update</button>
+                        <button type="submit" class="btn btn-success btn-sm mt-1">
+                            Update
+                        </button>
+
                     </form>
                 </td>
+
             </tr>
             {% endfor %}
         </tbody>
